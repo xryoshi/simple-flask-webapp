@@ -1,16 +1,11 @@
-FROM python:3.9
+FROM python:3.9.0-slim
 
 LABEL maintainer=nizar.lazuardy@gmail.com
 
-# copy all files to app directory
-RUN app
-COPY . /app
-WORKDIR /app
+WORKDIR /usr/src/app
+COPY requirements.txt ./
+RUN pip install --no-cache-dir -r requirements.txt
+COPY . .
 
-# install required libraries
-RUN pip install -r requirements.txt
-
-# exec application
 EXPOSE 5000
-ENTRYPOINT ["python"]
-CMD [ "main.py" ]
+CMD [ "python", "main.py" ]
