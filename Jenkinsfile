@@ -12,6 +12,16 @@ pipeline {
                     url: 'https://github.com/nzjourney/simple-flask-webapp.git'
             }
         }
+        stage('Install requirement') {
+            steps {
+                sh "pip install -r requirements.txt"
+            }
+        }
+        stage('Test routes') {
+            steps {
+                sh "pytest tests/routes.py"
+            }
+        }
         stage('Build image') {
             steps {
                 script {
