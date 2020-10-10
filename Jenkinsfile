@@ -2,7 +2,7 @@ pipeline {
     environment {
         registry = "nzjourney/simple-flask-webapp"
         registryCredential = 'dockerhub'
-        def BUILD_DATE = sh(script: "echo `date +%Y%m%d%k%M%S`", returnStdout: true).trim()
+        def BUILD_DATE = sh(script: "echo `date +%Y%m%d%k%M%S` | sed 's/ //g'", returnStdout: true).trim()
     }
     agent any
     stages {
