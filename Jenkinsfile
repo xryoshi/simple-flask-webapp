@@ -8,7 +8,8 @@ pipeline {
     stages {
         stage('Clone repository') {
             steps {
-                git 'https://github.com/nzjourney/simple-flask-webapp'
+                git branch: 'master',
+                    url: 'https://github.com/nzjourney/simple-flask-webapp.git'
             }
         }
         stage('Build image') {
