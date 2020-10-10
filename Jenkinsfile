@@ -15,6 +15,7 @@ pipeline {
             steps {
                 script {
                     dockerImage = docker.build registry + ":$BUILD_DATE"
+                    dockerImageLatest = docker.build registry + "latest"
                 }
             }
         }
@@ -23,13 +24,14 @@ pipeline {
                 script {
                     docker.withRegistry('', registryCredential) {
                         dockerImage.push()
+                        dockerImageLatest.push()
                     }
                 }
             }
         }
         stage('Cleanup local image') {
             steps {
-                sh "docker rmi $registry:$BUILD_DATE"
+                sh "docker rmi $registry:$BUILD_DATE && docker rmi $registry:latest"
             }
         }
     }
