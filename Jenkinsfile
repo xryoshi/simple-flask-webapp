@@ -2,6 +2,7 @@ pipeline {
     environment {
         registry = "nzjourney/simple-flask-webapp"
         registryCredential = 'dockerhub'
+        def BUILD_DATE = sh(script: "echo `date +%Y%m%d`", returnStdout: true).trim()
     }
     agent any
     stages {
@@ -13,7 +14,7 @@ pipeline {
         stage('Build image') {
             steps {
                 script {
-                    dockerImage = docker.build registry + ":$BUILD_NUMBER"
+                    dockerImage = docker.build registry + ":$BUILD_DATE$BUILD_NUMBER"
                 }
             }
         }
@@ -22,14 +23,13 @@ pipeline {
                 script {
                     docker.withRegistry('', registryCredential) {
                         dockerImage.push()
-                        dockerImage.push('latest')
                     }
                 }
             }
         }
         stage('Cleanup local image') {
             steps {
-                sh "docker rmi $registry:$BUILD_NUMBER && docker rmi $registry:latest"
+                sh "docker rmi $registry:$$BUILD_DATE$BUILD_NUMBER"
             }
         }
     }
