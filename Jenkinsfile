@@ -19,7 +19,7 @@ pipeline {
         }
         stage('Test routes') {
             steps {
-                sh "pytest tests/routes.py"
+                sh "python3 -m pytest tests/routes.py"
             }
         }
         stage('Build image') {
