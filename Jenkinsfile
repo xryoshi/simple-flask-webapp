@@ -29,7 +29,7 @@ pipeline {
         }
         stage('Cleanup local image') {
             steps {
-                sh "docker rmi $registry:$$BUILD_DATE$BUILD_NUMBER"
+                sh "docker rmi $registry:$BUILD_DATE$BUILD_NUMBER"
             }
         }
     }
