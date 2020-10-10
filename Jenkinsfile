@@ -22,13 +22,14 @@ pipeline {
                 script {
                     docker.withRegistry('', registryCredential) {
                         dockerImage.push()
+                        dockerImage.push('latest')
                     }
                 }
             }
         }
         stage('Cleanup local image') {
             steps {
-                sh "docker rmi $registry:$BUILD_NUMBER"
+                sh "docker rmi $registry:$BUILD_NUMBER && docker rmi $registry:latest"
             }
         }
     }
