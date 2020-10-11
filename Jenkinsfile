@@ -16,7 +16,7 @@ pipeline {
                 sh "python3 -m pytest tests/routes.py"
             }
         }
-        stage('Build images') {
+        stage('Build images production') {
             when {
                 branch 'master'
             }
@@ -26,6 +26,7 @@ pipeline {
                     dockerImageLatest = docker.build registry + ":production"
                 }
             }
+        stage('Build images staging') {
             when {
                 branch 'staging'
             }
