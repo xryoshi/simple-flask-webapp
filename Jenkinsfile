@@ -6,7 +6,7 @@ pipeline {
     }
     agent any
     stages {
-        stage('Clone repository') {
+        /**stage('Clone repository') {
             when {
                 branch 'master'
             }
@@ -14,7 +14,7 @@ pipeline {
                 git branch: 'master',
                     url: 'https://github.com/nzjourney/simple-flask-webapp.git'
             }
-        }
+        }**/
         stage('Install requirement') {
             steps {
                 sh "pip3 install -r requirements.txt --user"
