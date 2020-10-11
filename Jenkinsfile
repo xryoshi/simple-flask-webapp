@@ -16,7 +16,7 @@ pipeline {
                 sh "python3 -m pytest tests/routes.py"
             }
         }
-        stage('Build images production') {
+        stage('Build images for production') {
             when {
                 branch 'master'
             }
@@ -27,7 +27,7 @@ pipeline {
                 }
             }
         }
-        stage('Build images staging') {
+        stage('Build images for staging') {
             when {
                 branch 'staging'
             }
