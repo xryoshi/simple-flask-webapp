@@ -21,11 +21,11 @@ pipeline {
                 script {
                     if (env.BRANCH_NAME == 'master') {
                         dockerImage = docker.build registry + ":production-$BUILD_DATE"
-                        dockerImageProduction = docker.build registry + ":production"
+                        dockerImageLatest = docker.build registry + ":production"
                    }
                    else if (env.BRANCH_NAME == 'staging') {
                         dockerImage = docker.build registry + ":staging-$BUILD_DATE"
-                        dockerImageProduction = docker.build registry + ":staging"
+                        dockerImageLatest = docker.build registry + ":staging"
                    }
                 }
             }
@@ -35,7 +35,7 @@ pipeline {
                 script {
                     docker.withRegistry('', registryCredential) {
                         dockerImage.push()
-                        dockerImageProduction.push()
+                        dockerImageLatest.push()
                     }
                 }
             }
