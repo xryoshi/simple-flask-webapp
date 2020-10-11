@@ -17,20 +17,16 @@ pipeline {
             }
         }
         stage('Build images') {
-            if (env.BRANCH_NAME == 'master') {
-                steps {
-                    script {
+            steps {
+                script {
+                    if (env.BRANCH_NAME == 'master') {
                         dockerImage = docker.build registry + ":production-$BUILD_DATE"
                         dockerImageProduction = docker.build registry + ":production"
-                    }
-                }
-            }
-            else if (env.BRANCH_NAME == 'staging') {
-                steps {
-                    script {
+                   }
+                   else if (env.BRANCH_NAME == 'staging') {
                         dockerImage = docker.build registry + ":staging-$BUILD_DATE"
-                        dockerImageStaging = docker.build registry + ":staging"
-                    }
+                        dockerImageProduction = docker.build registry + ":staging"
+                   }
                 }
             }
         }
@@ -44,7 +40,7 @@ pipeline {
                 }
             }
         }
-        stage('Cleanup local images (production)') {
+        stage('Cleanup local images') {
             steps {
                 sh "docker rmi $registry:production"
                 sh "docker rmi $registry:production-$BUILD_DATE"
