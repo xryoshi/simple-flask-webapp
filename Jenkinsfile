@@ -6,6 +6,9 @@ pipeline {
     }
     agent any
     stages {
+        when {
+            branch "master"
+        }
         stage('Clone repository') {
             steps {
                 git branch: 'master',
