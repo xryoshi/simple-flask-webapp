@@ -16,7 +16,7 @@ pipeline {
                 sh "python3 -m pytest tests/routes.py"
             }
         }
-        stage('Build images') {
+        stage('Build images: env') {
             when {
                 branch 'master'
             }
@@ -27,7 +27,18 @@ pipeline {
                 }
             }
         }
-        stage('Push images') {
+        stage('Build images: env') {
+            when {
+                branch 'staging'
+            }
+            steps {
+                script {
+                    dockerImage = docker.build registry + ":staging-$BUILD_DATE"
+                    dockerImageStaging = docker.build registry + ":staging"
+                }
+            }
+        }
+        stage('Push images: env') {
             when {
                 branch 'master'
             }
@@ -40,13 +51,25 @@ pipeline {
                 }
             }
         }
-        stage('Cleanup local images') {
+        stage('Push images: env') {
             when {
-                branch 'master'
+                branch 'staging'
             }
+            steps {
+                script {
+                    docker.withRegistry('', registryCredential) {
+                        dockerImage.push()
+                        dockerImageStaging.push()
+                    }
+                }
+            }
+        }
+        stage('Cleanup local images') {
             steps {
                 sh "docker rmi $registry:production"
                 sh "docker rmi $registry:production-$BUILD_DATE"
+                sh "docker rmi $registry:staging"
+                sh "docker rmi $registry:staging-$BUILD_DATE"
             }
         }
     }
