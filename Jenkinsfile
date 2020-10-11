@@ -17,26 +17,63 @@ pipeline {
             }
         }
         stage('Build images') {
+            when {
+                branch 'master'
+            }
             steps {
                 script {
-                    dockerImage = docker.build registry + ":$BUILD_DATE"
-                    dockerImageLatest = docker.build registry + ":latest"
+                    dockerImage = docker.build registry + ":production-$BUILD_DATE"
+                    dockerImageProduction = docker.build registry + ":production"
+                }
+            }
+            when {
+                branch 'staging'
+            }
+            steps {
+                script {
+                    dockerImage = docker.build registry + ":staging-$BUILD_DATE"
+                    dockerImageStaging = docker.build registry + ":staging"
                 }
             }
         }
         stage('Push images') {
+            when {
+                branch 'master'
+            }
             steps {
                 script {
                     docker.withRegistry('', registryCredential) {
                         dockerImage.push()
-                        dockerImageLatest.push()
+                        dockerImageProduction.push()
+                    }
+                }
+            }
+            when {
+                branch 'staging'
+            }
+            steps {
+                script {
+                    docker.withRegistry('', registryCredential) {
+                        dockerImage.push()
+                        dockerImageStaging.push()
                     }
                 }
             }
         }
         stage('Cleanup local images') {
+            when {
+                branch 'master'
+            }
             steps {
-                sh "docker rmi $registry:$BUILD_DATE && docker rmi $registry:latest"
+                sh "docker rmi $registry:production"
+                sh "docker rmi $registry:production-$BUILD_DATE"
+            }
+            when {
+                branch 'staging'
+            }
+            steps {
+                sh "docker rmi $registry:staging"
+                sh "docker rmi $registry:staging-$BUILD_DATE"
             }
         }
     }
