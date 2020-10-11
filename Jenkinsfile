@@ -7,6 +7,9 @@ pipeline {
     agent any
     stages {
         stage('Clone repository') {
+            when {
+                branch 'master'
+            }
             steps {
                 git branch: 'master',
                     url: 'https://github.com/nzjourney/simple-flask-webapp.git'
