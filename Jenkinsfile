@@ -18,7 +18,7 @@ pipeline {
         }
         stage('Build images production') {
             when {
-                branch 'production'
+                branch 'master'
             }
             steps {
                 script {
