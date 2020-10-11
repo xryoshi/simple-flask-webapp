@@ -17,6 +17,9 @@ pipeline {
             }
         }
         stage('Build images (staging)') {
+            when {
+                branch 'staging'
+            }
             steps {
                 script {
                     dockerImage = docker.build registry + ":staging-$BUILD_DATE"
