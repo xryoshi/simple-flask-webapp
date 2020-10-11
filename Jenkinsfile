@@ -16,7 +16,7 @@ pipeline {
                 sh "python3 -m pytest tests/routes.py"
             }
         }
-        stage('Build images: production') {
+        stage('Build images') {
             when {
                 branch 'master'
             }
@@ -26,8 +26,6 @@ pipeline {
                     dockerImageProduction = docker.build registry + ":production"
                 }
             }
-        }
-        stage('Build images: staging') {
             when {
                 branch 'staging'
             }
@@ -38,7 +36,7 @@ pipeline {
                 }
             }
         }
-        stage('Push images: production') {
+        stage('Push images') {
             when {
                 branch 'master'
             }
@@ -47,19 +45,6 @@ pipeline {
                     docker.withRegistry('', registryCredential) {
                         dockerImage.push()
                         dockerImageProduction.push()
-                    }
-                }
-            }
-        }
-        stage('Push images: staging') {
-            when {
-                branch 'staging'
-            }
-            steps {
-                script {
-                    docker.withRegistry('', registryCredential) {
-                        dockerImage.push()
-                        dockerImageStaging.push()
                     }
                 }
             }
