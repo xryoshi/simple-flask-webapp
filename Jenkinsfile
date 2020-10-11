@@ -16,8 +16,8 @@ pipeline {
                 sh "python3 -m pytest tests/routes.py"
             }
         }
-        if (env.BRANCH_NAME == 'master') {
-            stage('Build images production') {
+        stage('Build images') {
+            if (env.BRANCH_NAME == 'master') {
                 steps {
                     script {
                         dockerImage = docker.build registry + ":production-$BUILD_DATE"
@@ -25,9 +25,7 @@ pipeline {
                     }
                 }
             }
-        }
-        else if (env.BRANCH_NAME == 'staging') {
-            stage('Build images staging') {
+            else if (env.BRANCH_NAME == 'staging') {
                 steps {
                     script {
                         dockerImage = docker.build registry + ":staging-$BUILD_DATE"
