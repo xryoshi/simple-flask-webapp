@@ -48,10 +48,22 @@ pipeline {
                 }
             }
         }
-        stage('Cleanup local images') {
+        stage('Cleanup local production images') {
+            when {
+                branch 'master'
+            }
             steps {
                 sh "docker rmi $registry:production"
                 sh "docker rmi $registry:production-$BUILD_DATE"
+            }
+        }
+        stage('Cleanup local staging images') {
+            when {
+                branch 'staging'
+            }
+            steps {
+                sh "docker rmi $registry:staging"
+                sh "docker rmi $registry:staging-$BUILD_DATE"
             }
         }
     }
