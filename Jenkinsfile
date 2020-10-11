@@ -6,16 +6,7 @@ pipeline {
     }
     agent any
     stages {
-        /**stage('Clone repository') {
-            when {
-                branch 'master'
-            }
-            steps {
-                git branch: 'master',
-                    url: 'https://github.com/nzjourney/simple-flask-webapp.git'
-            }
-        }**/
-        stage('Install requirement') {
+        stage('Install libraries') {
             steps {
                 sh "pip3 install -r requirements.txt --user"
             }
@@ -25,7 +16,7 @@ pipeline {
                 sh "python3 -m pytest tests/routes.py"
             }
         }
-        stage('Build image') {
+        stage('Build images') {
             steps {
                 script {
                     dockerImage = docker.build registry + ":$BUILD_DATE"
@@ -33,7 +24,7 @@ pipeline {
                 }
             }
         }
-        stage('Push image') {
+        stage('Push images') {
             steps {
                 script {
                     docker.withRegistry('', registryCredential) {
@@ -43,7 +34,7 @@ pipeline {
                 }
             }
         }
-        stage('Cleanup local image') {
+        stage('Cleanup local images') {
             steps {
                 sh "docker rmi $registry:$BUILD_DATE && docker rmi $registry:latest"
             }
