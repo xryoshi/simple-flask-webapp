@@ -1,1 +1,3 @@
-Jenkinsfile groovy
+* text=auto
+
+Jenkinsfile merge=ours
