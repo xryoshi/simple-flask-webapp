@@ -17,18 +17,6 @@ pipeline {
             }
         }
         stage('Build images') {
-            when {
-                branch 'master'
-            }
-            steps {
-                script {
-                    dockerImage = docker.build registry + ":production-$BUILD_DATE"
-                    dockerImageProduction = docker.build registry + ":production"
-                }
-            }
-            when {
-                branch 'staging'
-            }
             steps {
                 script {
                     dockerImage = docker.build registry + ":staging-$BUILD_DATE"
@@ -37,22 +25,17 @@ pipeline {
             }
         }
         stage('Push images') {
-            when {
-                branch 'master'
-            }
             steps {
                 script {
                     docker.withRegistry('', registryCredential) {
                         dockerImage.push()
-                        dockerImageProduction.push()
+                        dockerImageStaging.push()
                     }
                 }
             }
         }
         stage('Cleanup local images') {
             steps {
-                sh "docker rmi $registry:production"
-                sh "docker rmi $registry:production-$BUILD_DATE"
                 sh "docker rmi $registry:staging"
                 sh "docker rmi $registry:staging-$BUILD_DATE"
             }
