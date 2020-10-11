@@ -26,6 +26,7 @@ pipeline {
                     dockerImageLatest = docker.build registry + ":production"
                 }
             }
+        }
         stage('Build images staging') {
             when {
                 branch 'staging'
