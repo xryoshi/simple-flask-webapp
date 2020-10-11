@@ -6,25 +6,37 @@ pipeline {
     }
     agent any
     stages {
-        stage('Install libraries (production)') {
+        stage('Install libraries') {
             steps {
                 sh "pip3 install -r requirements.txt --user"
             }
         }
-        stage('Test routes (production)') {
+        stage('Test routes') {
             steps {
                 sh "python3 -m pytest tests/routes.py"
             }
         }
-        stage('Build images (production)') {
-            steps {
-                script {
-                    dockerImage = docker.build registry + ":production-$BUILD_DATE"
-                    dockerImageProduction = docker.build registry + ":production"
+        if (env.BRANCH_NAME == 'master') {
+            stage('Build images production') {
+                steps {
+                    script {
+                        dockerImage = docker.build registry + ":production-$BUILD_DATE"
+                        dockerImageProduction = docker.build registry + ":production"
+                    }
                 }
             }
         }
-        stage('Push images (production)') {
+        else if (env.BRANCH_NAME == 'staging') {
+            stage('Build images staging') {
+                steps {
+                    script {
+                        dockerImage = docker.build registry + ":staging-$BUILD_DATE"
+                        dockerImageStaging = docker.build registry + ":staging"
+                    }
+                }
+            }
+        }
+        stage('Push images') {
             steps {
                 script {
                     docker.withRegistry('', registryCredential) {
