@@ -26,6 +26,8 @@ pipeline {
                     dockerImageProduction = docker.build registry + ":production"
                 }
             }
+        }
+        stage('Build images') {
             when {
                 branch 'staging'
             }
@@ -48,6 +50,8 @@ pipeline {
                     }
                 }
             }
+        }
+        stage('Push images') {
             when {
                 branch 'staging'
             }
@@ -68,6 +72,8 @@ pipeline {
                 sh "docker rmi $registry:production"
                 sh "docker rmi $registry:production-$BUILD_DATE"
             }
+        }
+        stage('Cleanup local images') {
             when {
                 branch 'staging'
             }
