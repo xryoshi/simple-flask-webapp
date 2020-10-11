@@ -19,8 +19,8 @@ pipeline {
         stage('Build images') {
             steps {
                 script {
-                    dockerImage = docker.build registry + ":production-$BUILD_DATE"
-                    dockerImageProduction = docker.build registry + ":production"
+                    dockerImage = docker.build registry + ":staging-$BUILD_DATE"
+                    dockerImageStaging = docker.build registry + ":staging"
                 }
             }
         }
@@ -29,15 +29,15 @@ pipeline {
                 script {
                     docker.withRegistry('', registryCredential) {
                         dockerImage.push()
-                        dockerImageProduction.push()
+                        dockerImageStaging.push()
                     }
                 }
             }
         }
         stage('Cleanup local images') {
             steps {
-                sh "docker rmi $registry:production"
-                sh "docker rmi $registry:production-$BUILD_DATE"
+                sh "docker rmi $registry:staging"
+                sh "docker rmi $registry:staging-$BUILD_DATE"
             }
         }
     }
