@@ -6,17 +6,17 @@ pipeline {
     }
     agent any
     stages {
-        stage('Install libraries (staging)') {
+        stage('Install libraries (production)') {
             steps {
                 sh "pip3 install -r requirements.txt --user"
             }
         }
-        stage('Test routes (staging)') {
+        stage('Test routes (production)') {
             steps {
                 sh "python3 -m pytest tests/routes.py"
             }
         }
-        stage('Build images (staging)') {
+        stage('Build images (production)') {
             steps {
                 script {
                     dockerImage = docker.build registry + ":production-$BUILD_DATE"
@@ -24,7 +24,7 @@ pipeline {
                 }
             }
         }
-        stage('Push images (staging)') {
+        stage('Push images (production)') {
             steps {
                 script {
                     docker.withRegistry('', registryCredential) {
@@ -34,7 +34,7 @@ pipeline {
                 }
             }
         }
-        stage('Cleanup local images (staging)') {
+        stage('Cleanup local images (production)') {
             steps {
                 sh "docker rmi $registry:production"
                 sh "docker rmi $registry:production-$BUILD_DATE"
