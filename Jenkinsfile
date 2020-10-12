@@ -22,8 +22,8 @@ pipeline {
             }
             steps {
                 script {
-                    dockerImage = docker.build registry + ":production-$BUILD_DATE"
                     dockerImageLatest = docker.build registry + ":production"
+                    dockerImage = docker.build registry + ":production-$BUILD_DATE"
                 }
             }
         }
@@ -33,8 +33,8 @@ pipeline {
             }
             steps {
                 script {
-                    dockerImage = docker.build registry + ":staging-$BUILD_DATE"
                     dockerImageLatest = docker.build registry + ":staging"
+                    dockerImage = docker.build registry + ":staging-$BUILD_DATE"
                 }
             }
         }
@@ -42,8 +42,8 @@ pipeline {
             steps {
                 script {
                     docker.withRegistry('', registryCredential) {
-                        dockerImage.push()
                         dockerImageLatest.push()
+                        dockerImage.push()
                     }
                 }
             }
