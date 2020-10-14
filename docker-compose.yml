@@ -1,7 +1,10 @@
 version: "3.8"
 services:
   web:
-    build: .
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: simple-flask-webapp
     ports:
       - "5000:5000"
     environment:
