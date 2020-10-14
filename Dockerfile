@@ -6,7 +6,7 @@ LABEL maintainer=nizar.lazuardy@gmail.com
 RUN groupadd -g 999 appuser && \
     useradd -m -r -u 999 -g appuser appuser
 
-# Copy the source code
+# Copy source code
 WORKDIR /usr/src/app
 RUN chown -R appuser:appuser /usr/src/app
 USER appuser
