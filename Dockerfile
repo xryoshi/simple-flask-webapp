@@ -10,7 +10,7 @@ RUN groupadd -g 999 appuser && \
 WORKDIR /usr/src/app
 RUN chown -R appuser:appuser /usr/src/app
 USER appuser
-COPY requirements.txt .
+COPY requirements.txt ./
 RUN pip3 install --no-cache-dir -r requirements.txt
 COPY . .
 
