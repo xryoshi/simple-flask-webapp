@@ -4,9 +4,9 @@ LABEL maintainer=nizar.lazuardy@gmail.com
 
 # Create appuser
 RUN groupadd -g 999 appuser && \
-    useradd --no-log-init -r -u 999 -g appuser appuser
+    useradd --no-log-init -u 999 -g appuser appuser
 
-# Copy source code
+# Copy source code & install libraries
 WORKDIR /app
 ADD . /app
 RUN pip3 install --no-cache-dir -r requirements.txt
