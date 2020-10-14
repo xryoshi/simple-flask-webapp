@@ -2,18 +2,18 @@ FROM python:3.9.0-slim-buster
 
 LABEL maintainer=nizar.lazuardy@gmail.com
 
-RUN apt update && apt install -y procps
-
 # Create appuser
 RUN groupadd -g 999 appuser && \
-    useradd -m -r -u 999 -g appuser appuser
+    useradd --no-log-init -r -u 999 -g appuser appuser
 
 # Copy source code
-WORKDIR /usr/src/app
-COPY requirements.txt ./
+WORKDIR /app
+ADD . /app
 RUN pip3 install --no-cache-dir -r requirements.txt
+
+# Changes ownership folder and switches to a non-root user
+RUN chown -R appuser:appuser /app
 USER appuser
-COPY . .
 
 # Run application
 EXPOSE 5000
