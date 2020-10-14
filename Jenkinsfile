@@ -79,7 +79,7 @@ pipeline {
         }
         stage('Cleanup local development images') {
             when {
-                branch 'staging'
+                branch 'development'
             }
             steps {
                 sh "docker rmi $registry:development"
