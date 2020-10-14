@@ -38,6 +38,17 @@ pipeline {
                 }
             }
         }
+        stage('Build images for development') {
+            when {
+                branch 'development'
+            }
+            steps {
+                script {
+                    dockerImageLatest = docker.build registry + ":development"
+                    dockerImage = docker.build registry + ":development-$BUILD_DATE"
+                }
+            }
+        }
         stage('Push images') {
             steps {
                 script {
@@ -64,6 +75,15 @@ pipeline {
             steps {
                 sh "docker rmi $registry:staging"
                 sh "docker rmi $registry:staging-$BUILD_DATE"
+            }
+        }
+        stage('Cleanup local development images') {
+            when {
+                branch 'staging'
+            }
+            steps {
+                sh "docker rmi $registry:development"
+                sh "docker rmi $registry:development-$BUILD_DATE"
             }
         }
     }
