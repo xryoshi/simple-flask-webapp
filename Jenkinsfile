@@ -22,9 +22,7 @@ pipeline {
             }
             steps {
                 script {
-                    dockerImageLatest = docker.build registry + ":production"
-                    dockerImage = docker.build registry + ":production-$BUILD_DATE"
-                }
+                    dockerImageLatest = docker.build registry + ":production"                }
             }
         }
         stage('Build images for staging') {
@@ -34,7 +32,6 @@ pipeline {
             steps {
                 script {
                     dockerImageLatest = docker.build registry + ":staging"
-                    dockerImage = docker.build registry + ":staging-$BUILD_DATE"
                 }
             }
         }
@@ -44,8 +41,7 @@ pipeline {
             }
             steps {
                 script {
-                    dockerImageLatest = docker.build registry + ":development"
-                    dockerImage = docker.build registry + ":development-$BUILD_DATE"
+                    dockerImageLatest = docker.build registry + ":development-$BUILD_DATE"
                 }
             }
         }
@@ -54,7 +50,6 @@ pipeline {
                 script {
                     docker.withRegistry('', registryCredential) {
                         dockerImageLatest.push()
-                        dockerImage.push()
                     }
                 }
             }
@@ -65,7 +60,6 @@ pipeline {
             }
             steps {
                 sh "docker rmi $registry:production"
-                sh "docker rmi $registry:production-$BUILD_DATE"
             }
         }
         stage('Cleanup local staging images') {
@@ -74,7 +68,6 @@ pipeline {
             }
             steps {
                 sh "docker rmi $registry:staging"
-                sh "docker rmi $registry:staging-$BUILD_DATE"
             }
         }
         stage('Cleanup local development images') {
@@ -82,7 +75,6 @@ pipeline {
                 branch 'development'
             }
             steps {
-                sh "docker rmi $registry:development"
                 sh "docker rmi $registry:development-$BUILD_DATE"
             }
         }
