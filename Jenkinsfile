@@ -9,7 +9,7 @@ pipeline {
         stage('Install libraries') {
             steps {
                 withPythonEnv('python3') {
-                    sh "pip3 install -r requirements.txt --user"
+                    sh "pip3 install -r requirements.txt"
                 }
             }
         }

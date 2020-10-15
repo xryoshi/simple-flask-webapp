@@ -14,6 +14,14 @@ python3-virtualenv
 java-1.8.0-openjdk
 ```
 
+Jenkins Plugins:
+```
+https://plugins.jenkins.io/docker-workflow/
+https://plugins.jenkins.io/docker-plugin/
+https://plugins.jenkins.io/pyenv-pipeline/
+https://plugins.jenkins.io/shiningpanda/ (optional)
+```
+
 Run with python (not recommended for production):
 ```
 $ python3 main.py
@@ -24,13 +32,13 @@ Run with gunicorn:
 $ gunicorn main:app -w 2 --threads 2 -b 0.0.0.0:5000
 ```
 
-Run with docker (production):
+Run with docker in production:
 ```
 $ sudo docker pull nzjourney/simple-flask-webapp:production
 $ sudo docker run -p 5000:5000 --name simple-flask-webapp -d nzjourney/simple-flask-webapp:production
 ```
 
-Run with docker (staging):
+Run with docker in staging:
 ```
 $ sudo docker pull nzjourney/simple-flask-webapp:staging
 $ sudo docker run -p 5000:5000 --name simple-flask-webapp -d nzjourney/simple-flask-webapp:staging
