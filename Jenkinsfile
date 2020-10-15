@@ -8,12 +8,16 @@ pipeline {
     stages {
         stage('Install libraries') {
             steps {
-                sh "pip3 install -r requirements.txt --user"
+                withPythonEnv('python3') {
+                    sh "pip3 install -r requirements.txt --user"
+                }
             }
         }
         stage('Test routes') {
             steps {
-                sh "python3 -m pytest tests/routes.py"
+                withPythonEnv('python3') {
+                    sh "python3 -m pytest tests/routes.py"
+                }
             }
         }
         stage('Build images for production') {
