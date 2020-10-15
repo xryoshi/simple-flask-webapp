@@ -1,8 +1,17 @@
 ### How to run
 
-Requirements:
+App Requirements:
 ```
-python v3.x
+python3
+Docker & Docker compose (optional)
+```
+
+Jenkins Requirements:
+```
+python3
+python3-pip
+python3-virtualenv
+java-1.8.0-openjdk
 ```
 
 Run with python (not recommended for production):
