@@ -26,7 +26,8 @@ pipeline {
             }
             steps {
                 script {
-                    dockerImageLatest = docker.build registry + ":production"                }
+                    dockerImageLatest = docker.build registry + ":production"
+                    }
             }
         }
         stage('Build images for staging') {
