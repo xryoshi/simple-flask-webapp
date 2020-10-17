@@ -45,6 +45,7 @@ $ sudo docker stop simple-flask-webapp
 
 Run with Docker Compose:
 ```
+$ sudo docker-compose build --pull
 $ sudo docker-compose up
 or with detached
 $ sudo docker-compose up -d
@@ -53,6 +54,6 @@ $ sudo docker-compose up -d
 Stop with Docker Compose:
 ```
 $ sudo docker-compose stop
-or bring everything down, removing the container entirely
+or bring everything down, removing the container and volume entirely
 $ sudo docker-compose down --volumes
 ```
