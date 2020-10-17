@@ -54,6 +54,6 @@ $ sudo docker-compose up -d
 Stop with Docker Compose:
 ```
 $ sudo docker-compose stop
-or bring everything down, removing the container and volume entirely
+or bring everything down, removing the container, and volume entirely
 $ sudo docker-compose down --volumes
 ```

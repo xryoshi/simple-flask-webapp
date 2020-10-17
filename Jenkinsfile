@@ -50,7 +50,7 @@ pipeline {
                 }
             }
         }
-        stage('Push images') {
+        stage('Push image') {
             steps {
                 script {
                     docker.withRegistry('', registryCredential) {
@@ -59,7 +59,7 @@ pipeline {
                 }
             }
         }
-        stage('Cleanup local production images') {
+        stage('Cleanup local production image') {
             when {
                 branch 'master'
             }
@@ -67,7 +67,7 @@ pipeline {
                 sh "docker rmi $registry:production"
             }
         }
-        stage('Cleanup local staging images') {
+        stage('Cleanup local staging image') {
             when {
                 branch 'staging'
             }
@@ -75,7 +75,7 @@ pipeline {
                 sh "docker rmi $registry:staging"
             }
         }
-        stage('Cleanup local development images') {
+        stage('Cleanup local development image') {
             when {
                 branch 'devel'
             }
