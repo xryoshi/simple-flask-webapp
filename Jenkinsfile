@@ -13,6 +13,13 @@ pipeline {
                 }
             }
         }
+        stage('Compile source code') {
+            steps {
+                withPythonEnv('python3') {
+                    sh "python3 -m compileall"
+                }
+            }
+        }
         stage('Test routes') {
             steps {
                 withPythonEnv('python3') {
