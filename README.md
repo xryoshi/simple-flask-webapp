@@ -32,14 +32,27 @@ Run with gunicorn:
 $ gunicorn main:app -w 2 --threads 2 -b 0.0.0.0:5000
 ```
 
-Run with docker in production:
+Run with Docker:
 ```
-$ sudo docker pull nzjourney/simple-flask-webapp:production
-$ sudo docker run -p 5000:5000 --name simple-flask-webapp -d nzjourney/simple-flask-webapp:production
+$ sudo docker pull nzjourney/simple-flask-webapp:tag
+$ sudo docker run -p 5000:5000 --name simple-flask-webapp -d nzjourney/simple-flask-webapp:tag
 ```
 
-Run with docker in staging:
+Stop with Docker:
 ```
-$ sudo docker pull nzjourney/simple-flask-webapp:staging
-$ sudo docker run -p 5000:5000 --name simple-flask-webapp -d nzjourney/simple-flask-webapp:staging
+$ sudo docker stop simple-flask-webapp
+```
+
+Run with Docker Compose:
+```
+$ sudo docker-compose up
+or with detached
+$ sudo docker-compose up -d
+```
+
+Stop with Docker Compose:
+```
+$ sudo docker-compose stop
+or bring everything down, removing the container entirely
+$ sudo docker-compose down --volumes
 ```
