@@ -6,10 +6,11 @@ LABEL maintainer=nizar.lazuardy@gmail.com
 RUN groupadd -g 999 appuser && \
     useradd --no-log-init -u 999 -g appuser appuser
 
-# Copy source code & install libraries
+# Copy source code, install libraries, & compile to bytecode
 WORKDIR /app
 ADD . /app
 RUN pip3 install --no-cache-dir -r requirements.txt
+RUN python3 -m compileall
 
 # Changes ownership folder and switches to a non-root user
 RUN chown -R appuser:appuser /app
