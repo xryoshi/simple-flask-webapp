@@ -57,3 +57,5 @@ $ sudo docker-compose stop
 or bring everything down, removing the container, and volume entirely
 $ sudo docker-compose down --volumes
 ```
+
+Copyright 2020
